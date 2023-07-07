@@ -3,6 +3,7 @@ import ReactDom from "react-dom";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Experience } from './Experience';
 import LoginPage from './Views/Login';
+import Registro from './Views/Registro';
 import { Canvas } from '@react-three/fiber';
 import Micursor from './Micursor';
 import { StrictMode, Suspense } from 'react';
@@ -35,8 +36,9 @@ root.render(
     <BrowserRouter>
     <StrictMode>
         <Routes>
-            <Route path='/login' element={<LoginPage />} />
-            <Route path='/' element={<Exp />} />
+            <Route path='/' element={<LoginPage />} />
+            <Route path='/signup' element={<Registro />} />
+            <Route path='/experience' element={<Exp />} />
         </Routes>
         </StrictMode>
     </BrowserRouter>

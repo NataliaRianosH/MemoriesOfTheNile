@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
-const LoginPage = () => {
+const Registro = () => {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const history = useNavigate();
@@ -16,55 +17,49 @@ const LoginPage = () => {
     setUsername(event.target.value);
   };
 
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
 
   async function handleLogin(e){
     e.preventDefault();
+    const data = {username, email, password};
+    try {
+        const res = await instance.post('/api/users', data);
+        console.log(res);
+        alert('Usuario Registrado Exitosamente');
+        history("/");
+  
+      } catch (err) {
+        alert(err);
+        console.error(err);
+      }
 
-    try{
-
-        await axios.post("https://mem-backend.onrender.com/api/login",{
-            username,password
-        })
-        .then(res=>{
-            if(res.data.message ==='Login successful' ){
-                console.log(res.data);
-                history("/experience");
-            }
-            else {
-                alert("Usuario no Encontrado");
-                console.log(res.data);
-            }
-        })
-        .catch(e=>{
-            alert("wrong details")
-            console.log(e);
-        })
-
-    }
-    catch(e){
-        console.log(e);
-
-    }
-
-  };
-
-  const toSignup = () => {
-    history("/signup")
-  }
+}
 
   return (
     <div>
-      <h2>Login Page</h2>
+      <h2>Registro</h2>
       <form onSubmit={handleLogin}>
         <label>
-          Usuario o Email:
+          Nombre de Usuario:
           <input
             type="username"
             value={username}
             onChange={handleUserChange}
+          />
+        </label>
+        <br />
+        <label>
+          Email:
+          <input
+            type="email"
+            value={email}
+            onChange={handleEmailChange}
           />
         </label>
         <br />
@@ -77,13 +72,11 @@ const LoginPage = () => {
           />
         </label>
         <br />
-        <button type="submit">Login</button>
+        <button type="submit">Registrarse</button>
       </form>
-      <h2>No tienes una cuenta?</h2>
-      <button onClick={toSignup}>Registrate!</button>
-      <Link to="/">Continuar a experience</Link>
+      <Link to="/">Volver</Link>
     </div>
   );
 };
 
-export default LoginPage;
+export default Registro;
